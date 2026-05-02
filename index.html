@@ -20,6 +20,7 @@ layout: page
     const label = data[0]['label'];
     results.innerHTML = `<br/><img src="${reader.result}" width="300"><p><b>Result: ${label}</b></p>`
   }
+  
   function read() {
     const reader = new FileReader();
     reader.addEventListener('load', () => loaded(reader))
