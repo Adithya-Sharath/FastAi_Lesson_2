@@ -10,15 +10,14 @@ layout: page
     const base64 = reader.result;
     const response = await fetch('https://adugudu-fastailesson-2.hf.space/gradio_api/call/classify_image', {
       method: "POST",
-      body: JSON.stringify({ "data": [{"url": base64}] }),
+      body: JSON.stringify({ "data": [{"url": base64, "meta": {"_type": "gradio.FileData"}}] }),
       headers: { "Content-Type": "application/json" }
     });
     const json = await response.json();
-    console.log("Step 1 response:", json);
     const eventId = json.event_id;
     const result = await fetch(`https://adugudu-fastailesson-2.hf.space/gradio_api/call/classify_image/${eventId}`);
     const text = await result.text();
-    console.log("Step 2 raw text:", text);
+    console.log("Raw:", text);
     const data = JSON.parse(text.split('data: ')[1]);
     const label = data[0]['label'];
     results.innerHTML = `<br/><img src="${base64}" width="300"><p><b>Result: ${label}</b></p>`
