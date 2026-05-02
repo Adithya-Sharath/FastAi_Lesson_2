@@ -13,18 +13,21 @@ layout: page
       headers: { "Content-Type": "application/json" }
     });
     const json = await response.json();
+    console.log("Step 1 response:", json);
     const eventId = json.event_id;
     const result = await fetch(`https://adugudu-fastailesson-2.hf.space/gradio_api/call/classify_image/${eventId}`);
     const text = await result.text();
+    console.log("Step 2 raw text:", text);
     const data = JSON.parse(text.split('data: ')[1]);
+    console.log("Parsed data:", data);
     const label = data[0]['label'];
     results.innerHTML = `<br/><img src="${reader.result}" width="300"><p><b>Result: ${label}</b></p>`
   }
-  
   function read() {
+    if(!photo.files[0]) return;
     const reader = new FileReader();
     reader.addEventListener('load', () => loaded(reader))
     reader.readAsDataURL(photo.files[0]);
   }
-  photo.addEventListener('input', read);
+  photo.addEventListener('change', read);
 </script>
